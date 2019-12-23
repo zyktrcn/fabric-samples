@@ -11,3 +11,6 @@
 .project
 # omit Go vendor directories
 vendor/
+
+/fabcar/javascript/yelp_photos
+fabcar/javascript/package-lock.json
