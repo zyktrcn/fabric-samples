@@ -76,11 +76,15 @@ updateAnchorPeers() {
   if [ -z "$CORE_PEER_TLS_ENABLED" -o "$CORE_PEER_TLS_ENABLED" = "false" ]; then
     set -x
     peer channel update -o orderer.example.com:7050 -c $CHANNEL_NAME -f ./channel-artifacts/${CORE_PEER_LOCALMSPID}anchors.tx >&log.txt
+    peer channel update -o orderer.example.com:7050 -c mainchannel -f ./channel-artifacts/${CORE_PEER_LOCALMSPID}anchors-mainchannel.tx >&log-mainchannel.txt
+    peer channel update -o orderer.example.com:7050 -c subchannel -f ./channel-artifacts/${CORE_PEER_LOCALMSPID}anchors-subchannel.tx >&log-subchannel.txt
     res=$?
     set +x
   else
     set -x
     peer channel update -o orderer.example.com:7050 -c $CHANNEL_NAME -f ./channel-artifacts/${CORE_PEER_LOCALMSPID}anchors.tx --tls $CORE_PEER_TLS_ENABLED --cafile $ORDERER_CA >&log.txt
+    peer channel update -o orderer.example.com:7050 -c mainchannel -f ./channel-artifacts/${CORE_PEER_LOCALMSPID}anchors-mainchannel.tx --tls $CORE_PEER_TLS_ENABLED --cafile $ORDERER_CA >&log-mainchannel.txt
+    peer channel update -o orderer.example.com:7050 -c subchannel -f ./channel-artifacts/${CORE_PEER_LOCALMSPID}anchors-subchannel.tx --tls $CORE_PEER_TLS_ENABLED --cafile $ORDERER_CA >&log-subchannel.txt
     res=$?
     set +x
   fi
@@ -99,6 +103,8 @@ joinChannelWithRetry() {
 
   set -x
   peer channel join -b $CHANNEL_NAME.block >&log.txt
+  peer channel join -b mainchannel.block >&log-mainchannel.txt
+  peer channel join -b subchannel.block >&log-subchannel.txt  
   res=$?
   set +x
   cat log.txt
@@ -120,6 +126,8 @@ installChaincode() {
   VERSION=${3:-1.0}
   set -x
   peer chaincode install -n mycc -v ${VERSION} -l ${LANGUAGE} -p ${CC_SRC_PATH} >&log.txt
+  peer chaincode install -n mainchannel -v ${VERSION} -l golang -p github.com/chaincode/mainchannel >&log-mainchannel.txt
+  peer chaincode install -n subchannel -v ${VERSION} -l golang -p github.com/chaincode/subchannel >&log-subchannel.txt
   res=$?
   set +x
   cat log.txt
@@ -140,11 +148,15 @@ instantiateChaincode() {
   if [ -z "$CORE_PEER_TLS_ENABLED" -o "$CORE_PEER_TLS_ENABLED" = "false" ]; then
     set -x
     peer chaincode instantiate -o orderer.example.com:7050 -C $CHANNEL_NAME -n mycc -l ${LANGUAGE} -v ${VERSION} -c '{"Args":["init","a","100","b","200"]}' -P "AND ('Org1MSP.peer','Org2MSP.peer')" >&log.txt
+    peer chaincode instantiate -o orderer.example.com:7050 -C mainchannel -n mainchannel -l golang -v ${VERSION} -c '{"Args":["init"]}' -P "AND ('Org1MSP.peer','Org2MSP.peer')" >&log-mainchannel.txt
+    peer chaincode instantiate -o orderer.example.com:7050 -C subchannel -n subchannel -l golang -v ${VERSION} -c '{"Args":["init"]}' -P "AND ('Org1MSP.peer','Org2MSP.peer')" >&log-subchannel.txt
     res=$?
     set +x
   else
     set -x
     peer chaincode instantiate -o orderer.example.com:7050 --tls $CORE_PEER_TLS_ENABLED --cafile $ORDERER_CA -C $CHANNEL_NAME -n mycc -l ${LANGUAGE} -v 1.0 -c '{"Args":["init","a","100","b","200"]}' -P "AND ('Org1MSP.peer','Org2MSP.peer')" >&log.txt
+    peer chaincode instantiate -o orderer.example.com:7050 --tls $CORE_PEER_TLS_ENABLED --cafile $ORDERER_CA -C mainchannel -n mainchannel -l golang -v 1.0 -c '{"Args":["init"]}' -P "AND ('Org1MSP.peer','Org2MSP.peer')" >&log-mainchannel.txt
+    peer chaincode instantiate -o orderer.example.com:7050 --tls $CORE_PEER_TLS_ENABLED --cafile $ORDERER_CA -C subchannel -n subchannel -l golang -v 1.0 -c '{"Args":["init"]}' -P "AND ('Org1MSP.peer','Org2MSP.peer')" >&log-subchannel.txt
     res=$?
     set +x
   fi

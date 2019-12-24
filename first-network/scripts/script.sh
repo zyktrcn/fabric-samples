@@ -45,11 +45,15 @@ createChannel() {
 	if [ -z "$CORE_PEER_TLS_ENABLED" -o "$CORE_PEER_TLS_ENABLED" = "false" ]; then
                 set -x
 		peer channel create -o orderer.example.com:7050 -c $CHANNEL_NAME -f ./channel-artifacts/channel.tx >&log.txt
+		peer channel create -o orderer.example.com:7050 -c mainchannel -f ./channel-artifacts/mainchannel.tx >&log-mainchannel.txt
+		peer channel create -o orderer.example.com:7050 -c subchannel -f ./channel-artifacts/subchannel.tx >&log-subchannel.txt
 		res=$?
                 set +x
 	else
 				set -x
 		peer channel create -o orderer.example.com:7050 -c $CHANNEL_NAME -f ./channel-artifacts/channel.tx --tls $CORE_PEER_TLS_ENABLED --cafile $ORDERER_CA >&log.txt
+		peer channel create -o orderer.example.com:7050 -c mainchannel -f ./channel-artifacts/mainchannel.tx --tls $CORE_PEER_TLS_ENABLED --cafile $ORDERER_CA >&log-mainchannel.txt
+		peer channel create -o orderer.example.com:7050 -c subchannel -f ./channel-artifacts/subchannel.tx --tls $CORE_PEER_TLS_ENABLED --cafile $ORDERER_CA >&log-subchannel.txt
 		res=$?
 				set +x
 	fi

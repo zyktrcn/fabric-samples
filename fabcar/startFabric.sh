@@ -65,6 +65,28 @@ docker exec \
     -v 1.0 \
     -p "$CC_SRC_PATH" \
     -l "$CC_RUNTIME_LANGUAGE"
+docker exec \
+  -e CORE_PEER_LOCALMSPID=Org1MSP \
+  -e CORE_PEER_ADDRESS=peer0.org1.example.com:7051 \
+  -e CORE_PEER_MSPCONFIGPATH=${ORG1_MSPCONFIGPATH} \
+  -e CORE_PEER_TLS_ROOTCERT_FILE=${ORG1_TLS_ROOTCERT_FILE} \
+  cli \
+  peer chaincode install \
+    -n mainchannel \
+    -v 1.0 \
+    -p github.com/chaincode/mainchannel \
+    -l golang
+docker exec \
+  -e CORE_PEER_LOCALMSPID=Org1MSP \
+  -e CORE_PEER_ADDRESS=peer0.org1.example.com:7051 \
+  -e CORE_PEER_MSPCONFIGPATH=${ORG1_MSPCONFIGPATH} \
+  -e CORE_PEER_TLS_ROOTCERT_FILE=${ORG1_TLS_ROOTCERT_FILE} \
+  cli \
+  peer chaincode install \
+    -n subchannel \
+    -v 1.0 \
+    -p github.com/chaincode/subchannel \
+    -l golang
 
 echo "Installing smart contract on peer0.org2.example.com"
 docker exec \
@@ -78,6 +100,28 @@ docker exec \
     -v 1.0 \
     -p "$CC_SRC_PATH" \
     -l "$CC_RUNTIME_LANGUAGE"
+docker exec \
+  -e CORE_PEER_LOCALMSPID=Org2MSP \
+  -e CORE_PEER_ADDRESS=peer0.org2.example.com:9051 \
+  -e CORE_PEER_MSPCONFIGPATH=${ORG2_MSPCONFIGPATH} \
+  -e CORE_PEER_TLS_ROOTCERT_FILE=${ORG2_TLS_ROOTCERT_FILE} \
+  cli \
+  peer chaincode install \
+    -n mainchannel \
+    -v 1.0 \
+    -p github.com/chaincode/mainchannel \
+    -l golang
+docker exec \
+  -e CORE_PEER_LOCALMSPID=Org2MSP \
+  -e CORE_PEER_ADDRESS=peer0.org2.example.com:9051 \
+  -e CORE_PEER_MSPCONFIGPATH=${ORG2_MSPCONFIGPATH} \
+  -e CORE_PEER_TLS_ROOTCERT_FILE=${ORG2_TLS_ROOTCERT_FILE} \
+  cli \
+  peer chaincode install \
+    -n subchannel \
+    -v 1.0 \
+    -p github.com/chaincode/subchannel \
+    -l golang
 
 echo "Instantiating smart contract on mychannel"
 docker exec \
@@ -89,6 +133,38 @@ docker exec \
     -C mychannel \
     -n fabcar \
     -l "$CC_RUNTIME_LANGUAGE" \
+    -v 1.0 \
+    -c '{"Args":[]}' \
+    -P "AND('Org1MSP.member','Org2MSP.member')" \
+    --tls \
+    --cafile ${ORDERER_TLS_ROOTCERT_FILE} \
+    --peerAddresses peer0.org1.example.com:7051 \
+    --tlsRootCertFiles ${ORG1_TLS_ROOTCERT_FILE}
+docker exec \
+  -e CORE_PEER_LOCALMSPID=Org1MSP \
+  -e CORE_PEER_MSPCONFIGPATH=${ORG1_MSPCONFIGPATH} \
+  cli \
+  peer chaincode instantiate \
+    -o orderer.example.com:7050 \
+    -C mainchannel \
+    -n mainchannel \
+    -l golang \
+    -v 1.0 \
+    -c '{"Args":[]}' \
+    -P "AND('Org1MSP.member','Org2MSP.member')" \
+    --tls \
+    --cafile ${ORDERER_TLS_ROOTCERT_FILE} \
+    --peerAddresses peer0.org1.example.com:7051 \
+    --tlsRootCertFiles ${ORG1_TLS_ROOTCERT_FILE}
+docker exec \
+  -e CORE_PEER_LOCALMSPID=Org1MSP \
+  -e CORE_PEER_MSPCONFIGPATH=${ORG1_MSPCONFIGPATH} \
+  cli \
+  peer chaincode instantiate \
+    -o orderer.example.com:7050 \
+    -C subchannel \
+    -n subchannel \
+    -l golang \
     -v 1.0 \
     -c '{"Args":[]}' \
     -P "AND('Org1MSP.member','Org2MSP.member')" \

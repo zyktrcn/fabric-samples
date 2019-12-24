@@ -134,18 +134,14 @@ async function main() {
   const costArr = []
 
   const res = await readFile()
-  const data = res.slice(0,1000).map(val => {
-    return {
-      ...val,
-      photo: encryption(parseBase64(val['photo_path'])).toString('hex')
-    }
-  })
+  const data = res.slice(0,3500)
   console.log('data length:', data.length)
 
   const len = data.length
 
   for(let i=0; i<len; i++) {
     const dataVal = data[i]
+    dataVal['photo'] = encryption(parseBase64(dataVal['photo_path'])).toString('hex')
     const { channel, chaincode } = SUB_CHANNEL
 
     // 写入
@@ -153,32 +149,39 @@ async function main() {
     const dateObj = dateFormat(date)
     console.log('====  start  ====')
 
-    const result = await invoke(
-      'user1',
-      'subchannel',
-      'subchannel',
-      'dataUpload',
-      [
-        'testRequest',
-        dataVal['photo_id'],
-        dataVal['photo'],
-        dateObj['full']
-      ]
-    )
+    try {
+      const result = await invoke(
+        'user1',
+        'subchannel',
+        'subchannel',
+        'dataUpload',
+        [
+          'testRequest',
+          dataVal['photo_id'],
+          dataVal['photo'],
+          dateObj['full']
+        ]
+      )
 
-    if (!result.success) {
-      continue
+      if (!result.success) {
+        continue
+      }
+
+      const cost = (new Date().getTime() - dateObj.time) / 1000
+      costArr.push({
+        name: dataVal['photo_id'],
+        path: dataVal['photo_path'],
+        cost
+      })
+
+      console.log('cost:', cost)
+      console.log('count:', costArr.length)
+    } catch(e) {
+      console.log('err:', err)
+
+      return
     }
 
-    const cost = (new Date().getTime() - dateObj.time) / 1000
-    costArr.push({
-      name: dataVal['photo_id'],
-      path: dataVal['photo_path'],
-      cost
-    })
-
-    console.log('cost:', cost)
-    console.log('count:', costArr.length)
     console.log('====  end  =====')
 
 

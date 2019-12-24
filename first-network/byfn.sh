@@ -446,6 +446,8 @@ function generateChannelArtifacts() {
   echo "#################################################################"
   set -x
   configtxgen -profile TwoOrgsChannel -outputCreateChannelTx ./channel-artifacts/channel.tx -channelID $CHANNEL_NAME
+  configtxgen -profile TwoOrgsChannel -outputCreateChannelTx ./channel-artifacts/mainchannel.tx -channelID mainchannel
+  configtxgen -profile TwoOrgsChannel -outputCreateChannelTx ./channel-artifacts/subchannel.tx -channelID subchannel
   res=$?
   set +x
   if [ $res -ne 0 ]; then
@@ -459,6 +461,8 @@ function generateChannelArtifacts() {
   echo "#################################################################"
   set -x
   configtxgen -profile TwoOrgsChannel -outputAnchorPeersUpdate ./channel-artifacts/Org1MSPanchors.tx -channelID $CHANNEL_NAME -asOrg Org1MSP
+  configtxgen -profile TwoOrgsChannel -outputAnchorPeersUpdate ./channel-artifacts/Org1MSPanchors-mainchannel.tx -channelID mainchannel -asOrg Org1MSP
+  configtxgen -profile TwoOrgsChannel -outputAnchorPeersUpdate ./channel-artifacts/Org1MSPanchors-subchannel.tx -channelID subchannel -asOrg Org1MSP
   res=$?
   set +x
   if [ $res -ne 0 ]; then
@@ -473,6 +477,8 @@ function generateChannelArtifacts() {
   set -x
   configtxgen -profile TwoOrgsChannel -outputAnchorPeersUpdate \
     ./channel-artifacts/Org2MSPanchors.tx -channelID $CHANNEL_NAME -asOrg Org2MSP
+  configtxgen -profile TwoOrgsChannel -outputAnchorPeersUpdate ./channel-artifacts/Org2MSPanchors-mainchannel.tx -channelID mainchannel -asOrg Org2MSP
+  configtxgen -profile TwoOrgsChannel -outputAnchorPeersUpdate ./channel-artifacts/Org2MSPanchors-subchannel.tx -channelID subchannel -asOrg Org2MSP
   res=$?
   set +x
   if [ $res -ne 0 ]; then
