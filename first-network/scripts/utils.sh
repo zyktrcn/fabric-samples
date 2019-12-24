@@ -37,8 +37,12 @@ setGlobals() {
     CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp
     if [ $PEER -eq 0 ]; then
       CORE_PEER_ADDRESS=peer0.org1.example.com:7051
-    else
+    elif [ $PEER -eq 1 ]; then
       CORE_PEER_ADDRESS=peer1.org1.example.com:8051
+    elif [ $PEER -eq 2 ]; then
+      CORE_PEER_ADDRESS=peer2.org1.example.com:11051
+    else
+      CORE_PEER_ADDRESS=peer3.org1.example.com:12051
     fi
   elif [ $ORG -eq 2 ]; then
     CORE_PEER_LOCALMSPID="Org2MSP"
@@ -46,8 +50,12 @@ setGlobals() {
     CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org2.example.com/users/Admin@org2.example.com/msp
     if [ $PEER -eq 0 ]; then
       CORE_PEER_ADDRESS=peer0.org2.example.com:9051
-    else
+    elif [ $PEER -eq 1 ]; then
       CORE_PEER_ADDRESS=peer1.org2.example.com:10051
+    elif [ $PEER -eq 2 ]; then
+      CORE_PEER_ADDRESS=peer2.org2.example.com:13051
+    else
+      CORE_PEER_ADDRESS=peer3.org2.example.com:14051
     fi
 
   elif [ $ORG -eq 3 ]; then
@@ -104,7 +112,7 @@ joinChannelWithRetry() {
   set -x
   peer channel join -b $CHANNEL_NAME.block >&log.txt
   peer channel join -b mainchannel.block >&log-mainchannel.txt
-  peer channel join -b subchannel.block >&log-subchannel.txt  
+  peer channel join -b subchannel.block >&log-subchannel.txt
   res=$?
   set +x
   cat log.txt

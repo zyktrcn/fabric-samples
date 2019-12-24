@@ -134,15 +134,16 @@ async function main() {
   const costArr = []
 
   const res = await readFile()
-  const data = res.slice(0,3500)
+  const data = res.slice(0, 3500)
   console.log('data length:', data.length)
 
   const len = data.length
 
   for(let i=0; i<len; i++) {
     const dataVal = data[i]
-    dataVal['photo'] = encryption(parseBase64(dataVal['photo_path'])).toString('hex')
     const { channel, chaincode } = SUB_CHANNEL
+
+    dataVal['photo'] = encryption(parseBase64(dataVal['photo_path'])).toString('hex')
 
     // 写入
     const date = new Date()
@@ -152,8 +153,8 @@ async function main() {
     try {
       const result = await invoke(
         'user1',
-        'subchannel',
-        'subchannel',
+        channel,
+        chaincode,
         'dataUpload',
         [
           'testRequest',
@@ -177,7 +178,7 @@ async function main() {
       console.log('cost:', cost)
       console.log('count:', costArr.length)
     } catch(e) {
-      console.log('err:', err)
+      console.log('err:', e)
 
       return
     }
