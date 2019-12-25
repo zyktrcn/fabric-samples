@@ -134,7 +134,7 @@ async function main() {
   const costArr = []
 
   const res = await readFile()
-  const data = res.slice(0, 3500)
+  const data = res.slice(0, 1)
   console.log('data length:', data.length)
 
   const len = data.length

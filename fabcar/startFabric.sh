@@ -115,7 +115,7 @@ docker exec \
 echo "Installing smart contract on peer2.org1.example.com"
 docker exec \
   -e CORE_PEER_LOCALMSPID=Org1MSP \
-  -e CORE_PEER_ADDRESS=peer2.org1.example.com:11051 \
+  -e CORE_PEER_ADDRESS=peer2.org1.example.com:9051 \
   -e CORE_PEER_MSPCONFIGPATH=${ORG1_MSPCONFIGPATH} \
   -e CORE_PEER_TLS_ROOTCERT_FILE=${ORG1_TLS_ROOTCERT_FILE} \
   cli \
@@ -126,7 +126,7 @@ docker exec \
     -l golang
 docker exec \
   -e CORE_PEER_LOCALMSPID=Org1MSP \
-  -e CORE_PEER_ADDRESS=peer2.org1.example.com:11051 \
+  -e CORE_PEER_ADDRESS=peer2.org1.example.com:9051 \
   -e CORE_PEER_MSPCONFIGPATH=${ORG1_MSPCONFIGPATH} \
   -e CORE_PEER_TLS_ROOTCERT_FILE=${ORG1_TLS_ROOTCERT_FILE} \
   cli \
@@ -139,7 +139,7 @@ docker exec \
 echo "Installing smart contract on peer3.org1.example.com"
 docker exec \
   -e CORE_PEER_LOCALMSPID=Org1MSP \
-  -e CORE_PEER_ADDRESS=peer3.org1.example.com:12051 \
+  -e CORE_PEER_ADDRESS=peer3.org1.example.com:10051 \
   -e CORE_PEER_MSPCONFIGPATH=${ORG1_MSPCONFIGPATH} \
   -e CORE_PEER_TLS_ROOTCERT_FILE=${ORG1_TLS_ROOTCERT_FILE} \
   cli \
@@ -150,7 +150,103 @@ docker exec \
     -l golang
 docker exec \
   -e CORE_PEER_LOCALMSPID=Org1MSP \
-  -e CORE_PEER_ADDRESS=peer3.org1.example.com:12051 \
+  -e CORE_PEER_ADDRESS=peer3.org1.example.com:10051 \
+  -e CORE_PEER_MSPCONFIGPATH=${ORG1_MSPCONFIGPATH} \
+  -e CORE_PEER_TLS_ROOTCERT_FILE=${ORG1_TLS_ROOTCERT_FILE} \
+  cli \
+  peer chaincode install \
+    -n subchannel \
+    -v 1.0 \
+    -p github.com/chaincode/subchannel \
+    -l golang
+
+echo "Installing smart contract on peer4.org1.example.com"
+docker exec \
+  -e CORE_PEER_LOCALMSPID=Org1MSP \
+  -e CORE_PEER_ADDRESS=peer4.org1.example.com:11051 \
+  -e CORE_PEER_MSPCONFIGPATH=${ORG1_MSPCONFIGPATH} \
+  -e CORE_PEER_TLS_ROOTCERT_FILE=${ORG1_TLS_ROOTCERT_FILE} \
+  cli \
+  peer chaincode install \
+    -n mainchannel \
+    -v 1.0 \
+    -p github.com/chaincode/mainchannel \
+    -l golang
+docker exec \
+  -e CORE_PEER_LOCALMSPID=Org1MSP \
+  -e CORE_PEER_ADDRESS=peer4.org1.example.com:11051 \
+  -e CORE_PEER_MSPCONFIGPATH=${ORG1_MSPCONFIGPATH} \
+  -e CORE_PEER_TLS_ROOTCERT_FILE=${ORG1_TLS_ROOTCERT_FILE} \
+  cli \
+  peer chaincode install \
+    -n subchannel \
+    -v 1.0 \
+    -p github.com/chaincode/subchannel \
+    -l golang
+
+echo "Installing smart contract on peer5.org1.example.com"
+docker exec \
+  -e CORE_PEER_LOCALMSPID=Org1MSP \
+  -e CORE_PEER_ADDRESS=peer5.org1.example.com:12051 \
+  -e CORE_PEER_MSPCONFIGPATH=${ORG1_MSPCONFIGPATH} \
+  -e CORE_PEER_TLS_ROOTCERT_FILE=${ORG1_TLS_ROOTCERT_FILE} \
+  cli \
+  peer chaincode install \
+    -n mainchannel \
+    -v 1.0 \
+    -p github.com/chaincode/mainchannel \
+    -l golang
+docker exec \
+  -e CORE_PEER_LOCALMSPID=Org1MSP \
+  -e CORE_PEER_ADDRESS=peer5.org1.example.com:12051 \
+  -e CORE_PEER_MSPCONFIGPATH=${ORG1_MSPCONFIGPATH} \
+  -e CORE_PEER_TLS_ROOTCERT_FILE=${ORG1_TLS_ROOTCERT_FILE} \
+  cli \
+  peer chaincode install \
+    -n subchannel \
+    -v 1.0 \
+    -p github.com/chaincode/subchannel \
+    -l golang
+
+echo "Installing smart contract on peer6.org1.example.com"
+docker exec \
+  -e CORE_PEER_LOCALMSPID=Org1MSP \
+  -e CORE_PEER_ADDRESS=peer6.org1.example.com:13051 \
+  -e CORE_PEER_MSPCONFIGPATH=${ORG1_MSPCONFIGPATH} \
+  -e CORE_PEER_TLS_ROOTCERT_FILE=${ORG1_TLS_ROOTCERT_FILE} \
+  cli \
+  peer chaincode install \
+    -n mainchannel \
+    -v 1.0 \
+    -p github.com/chaincode/mainchannel \
+    -l golang
+docker exec \
+  -e CORE_PEER_LOCALMSPID=Org1MSP \
+  -e CORE_PEER_ADDRESS=peer6.org1.example.com:13051 \
+  -e CORE_PEER_MSPCONFIGPATH=${ORG1_MSPCONFIGPATH} \
+  -e CORE_PEER_TLS_ROOTCERT_FILE=${ORG1_TLS_ROOTCERT_FILE} \
+  cli \
+  peer chaincode install \
+    -n subchannel \
+    -v 1.0 \
+    -p github.com/chaincode/subchannel \
+    -l golang
+
+echo "Installing smart contract on peer7.org1.example.com"
+docker exec \
+  -e CORE_PEER_LOCALMSPID=Org1MSP \
+  -e CORE_PEER_ADDRESS=peer7.org1.example.com:14051 \
+  -e CORE_PEER_MSPCONFIGPATH=${ORG1_MSPCONFIGPATH} \
+  -e CORE_PEER_TLS_ROOTCERT_FILE=${ORG1_TLS_ROOTCERT_FILE} \
+  cli \
+  peer chaincode install \
+    -n mainchannel \
+    -v 1.0 \
+    -p github.com/chaincode/mainchannel \
+    -l golang
+docker exec \
+  -e CORE_PEER_LOCALMSPID=Org1MSP \
+  -e CORE_PEER_ADDRESS=peer7.org1.example.com:14051 \
   -e CORE_PEER_MSPCONFIGPATH=${ORG1_MSPCONFIGPATH} \
   -e CORE_PEER_TLS_ROOTCERT_FILE=${ORG1_TLS_ROOTCERT_FILE} \
   cli \
@@ -163,7 +259,7 @@ docker exec \
 echo "Installing smart contract on peer0.org2.example.com"
 docker exec \
   -e CORE_PEER_LOCALMSPID=Org2MSP \
-  -e CORE_PEER_ADDRESS=peer0.org2.example.com:9051 \
+  -e CORE_PEER_ADDRESS=peer0.org2.example.com:15051 \
   -e CORE_PEER_MSPCONFIGPATH=${ORG2_MSPCONFIGPATH} \
   -e CORE_PEER_TLS_ROOTCERT_FILE=${ORG2_TLS_ROOTCERT_FILE} \
   cli \
@@ -174,7 +270,7 @@ docker exec \
     -l "$CC_RUNTIME_LANGUAGE"
 docker exec \
   -e CORE_PEER_LOCALMSPID=Org2MSP \
-  -e CORE_PEER_ADDRESS=peer0.org2.example.com:9051 \
+  -e CORE_PEER_ADDRESS=peer0.org2.example.com:15051 \
   -e CORE_PEER_MSPCONFIGPATH=${ORG2_MSPCONFIGPATH} \
   -e CORE_PEER_TLS_ROOTCERT_FILE=${ORG2_TLS_ROOTCERT_FILE} \
   cli \
@@ -185,7 +281,7 @@ docker exec \
     -l golang
 docker exec \
   -e CORE_PEER_LOCALMSPID=Org2MSP \
-  -e CORE_PEER_ADDRESS=peer0.org2.example.com:9051 \
+  -e CORE_PEER_ADDRESS=peer0.org2.example.com:15051 \
   -e CORE_PEER_MSPCONFIGPATH=${ORG2_MSPCONFIGPATH} \
   -e CORE_PEER_TLS_ROOTCERT_FILE=${ORG2_TLS_ROOTCERT_FILE} \
   cli \
@@ -197,7 +293,7 @@ docker exec \
 echo "Installing smart contract on peer1.org2.example.com"
 docker exec \
   -e CORE_PEER_LOCALMSPID=Org2MSP \
-  -e CORE_PEER_ADDRESS=peer1.org2.example.com:10051 \
+  -e CORE_PEER_ADDRESS=peer1.org2.example.com:16051 \
   -e CORE_PEER_MSPCONFIGPATH=${ORG2_MSPCONFIGPATH} \
   -e CORE_PEER_TLS_ROOTCERT_FILE=${ORG2_TLS_ROOTCERT_FILE} \
   cli \
@@ -208,7 +304,7 @@ docker exec \
     -l golang
 docker exec \
   -e CORE_PEER_LOCALMSPID=Org2MSP \
-  -e CORE_PEER_ADDRESS=peer1.org2.example.com:10051 \
+  -e CORE_PEER_ADDRESS=peer1.org2.example.com:16051 \
   -e CORE_PEER_MSPCONFIGPATH=${ORG2_MSPCONFIGPATH} \
   -e CORE_PEER_TLS_ROOTCERT_FILE=${ORG2_TLS_ROOTCERT_FILE} \
   cli \
@@ -221,7 +317,7 @@ docker exec \
 echo "Installing smart contract on peer2.org2.example.com"
 docker exec \
   -e CORE_PEER_LOCALMSPID=Org2MSP \
-  -e CORE_PEER_ADDRESS=peer2.org2.example.com:13051 \
+  -e CORE_PEER_ADDRESS=peer2.org2.example.com:17051 \
   -e CORE_PEER_MSPCONFIGPATH=${ORG2_MSPCONFIGPATH} \
   -e CORE_PEER_TLS_ROOTCERT_FILE=${ORG2_TLS_ROOTCERT_FILE} \
   cli \
@@ -232,7 +328,7 @@ docker exec \
     -l golang
 docker exec \
   -e CORE_PEER_LOCALMSPID=Org2MSP \
-  -e CORE_PEER_ADDRESS=peer2.org2.example.com:13051 \
+  -e CORE_PEER_ADDRESS=peer2.org2.example.com:17051 \
   -e CORE_PEER_MSPCONFIGPATH=${ORG2_MSPCONFIGPATH} \
   -e CORE_PEER_TLS_ROOTCERT_FILE=${ORG2_TLS_ROOTCERT_FILE} \
   cli \
@@ -245,7 +341,7 @@ docker exec \
 echo "Installing smart contract on peer3.org2.example.com"
 docker exec \
   -e CORE_PEER_LOCALMSPID=Org2MSP \
-  -e CORE_PEER_ADDRESS=peer3.org2.example.com:14051 \
+  -e CORE_PEER_ADDRESS=peer3.org2.example.com:18051 \
   -e CORE_PEER_MSPCONFIGPATH=${ORG2_MSPCONFIGPATH} \
   -e CORE_PEER_TLS_ROOTCERT_FILE=${ORG2_TLS_ROOTCERT_FILE} \
   cli \
@@ -256,7 +352,103 @@ docker exec \
     -l golang
 docker exec \
   -e CORE_PEER_LOCALMSPID=Org2MSP \
-  -e CORE_PEER_ADDRESS=peer3.org2.example.com:14051 \
+  -e CORE_PEER_ADDRESS=peer3.org2.example.com:18051 \
+  -e CORE_PEER_MSPCONFIGPATH=${ORG2_MSPCONFIGPATH} \
+  -e CORE_PEER_TLS_ROOTCERT_FILE=${ORG2_TLS_ROOTCERT_FILE} \
+  cli \
+  peer chaincode install \
+    -n subchannel \
+    -v 1.0 \
+    -p github.com/chaincode/subchannel \
+    -l golang
+
+echo "Installing smart contract on peer4.org2.example.com"
+docker exec \
+  -e CORE_PEER_LOCALMSPID=Org2MSP \
+  -e CORE_PEER_ADDRESS=peer4.org2.example.com:19051 \
+  -e CORE_PEER_MSPCONFIGPATH=${ORG2_MSPCONFIGPATH} \
+  -e CORE_PEER_TLS_ROOTCERT_FILE=${ORG2_TLS_ROOTCERT_FILE} \
+  cli \
+  peer chaincode install \
+    -n mainchannel \
+    -v 1.0 \
+    -p github.com/chaincode/mainchannel \
+    -l golang
+docker exec \
+  -e CORE_PEER_LOCALMSPID=Org2MSP \
+  -e CORE_PEER_ADDRESS=peer4.org2.example.com:19051 \
+  -e CORE_PEER_MSPCONFIGPATH=${ORG2_MSPCONFIGPATH} \
+  -e CORE_PEER_TLS_ROOTCERT_FILE=${ORG2_TLS_ROOTCERT_FILE} \
+  cli \
+  peer chaincode install \
+    -n subchannel \
+    -v 1.0 \
+    -p github.com/chaincode/subchannel \
+    -l golang
+
+echo "Installing smart contract on peer5.org2.example.com"
+docker exec \
+  -e CORE_PEER_LOCALMSPID=Org2MSP \
+  -e CORE_PEER_ADDRESS=peer5.org2.example.com:20051 \
+  -e CORE_PEER_MSPCONFIGPATH=${ORG2_MSPCONFIGPATH} \
+  -e CORE_PEER_TLS_ROOTCERT_FILE=${ORG2_TLS_ROOTCERT_FILE} \
+  cli \
+  peer chaincode install \
+    -n mainchannel \
+    -v 1.0 \
+    -p github.com/chaincode/mainchannel \
+    -l golang
+docker exec \
+  -e CORE_PEER_LOCALMSPID=Org2MSP \
+  -e CORE_PEER_ADDRESS=peer5.org2.example.com:20051 \
+  -e CORE_PEER_MSPCONFIGPATH=${ORG2_MSPCONFIGPATH} \
+  -e CORE_PEER_TLS_ROOTCERT_FILE=${ORG2_TLS_ROOTCERT_FILE} \
+  cli \
+  peer chaincode install \
+    -n subchannel \
+    -v 1.0 \
+    -p github.com/chaincode/subchannel \
+    -l golang
+
+echo "Installing smart contract on peer6.org2.example.com"
+docker exec \
+  -e CORE_PEER_LOCALMSPID=Org2MSP \
+  -e CORE_PEER_ADDRESS=peer6.org2.example.com:21051 \
+  -e CORE_PEER_MSPCONFIGPATH=${ORG2_MSPCONFIGPATH} \
+  -e CORE_PEER_TLS_ROOTCERT_FILE=${ORG2_TLS_ROOTCERT_FILE} \
+  cli \
+  peer chaincode install \
+    -n mainchannel \
+    -v 1.0 \
+    -p github.com/chaincode/mainchannel \
+    -l golang
+docker exec \
+  -e CORE_PEER_LOCALMSPID=Org2MSP \
+  -e CORE_PEER_ADDRESS=peer6.org2.example.com:21051 \
+  -e CORE_PEER_MSPCONFIGPATH=${ORG2_MSPCONFIGPATH} \
+  -e CORE_PEER_TLS_ROOTCERT_FILE=${ORG2_TLS_ROOTCERT_FILE} \
+  cli \
+  peer chaincode install \
+    -n subchannel \
+    -v 1.0 \
+    -p github.com/chaincode/subchannel \
+    -l golang
+
+echo "Installing smart contract on peer7.org2.example.com"
+docker exec \
+  -e CORE_PEER_LOCALMSPID=Org2MSP \
+  -e CORE_PEER_ADDRESS=peer7.org2.example.com:22051 \
+  -e CORE_PEER_MSPCONFIGPATH=${ORG2_MSPCONFIGPATH} \
+  -e CORE_PEER_TLS_ROOTCERT_FILE=${ORG2_TLS_ROOTCERT_FILE} \
+  cli \
+  peer chaincode install \
+    -n mainchannel \
+    -v 1.0 \
+    -p github.com/chaincode/mainchannel \
+    -l golang
+docker exec \
+  -e CORE_PEER_LOCALMSPID=Org2MSP \
+  -e CORE_PEER_ADDRESS=peer7.org2.example.com:22051 \
   -e CORE_PEER_MSPCONFIGPATH=${ORG2_MSPCONFIGPATH} \
   -e CORE_PEER_TLS_ROOTCERT_FILE=${ORG2_TLS_ROOTCERT_FILE} \
   cli \
@@ -319,24 +511,6 @@ docker exec \
 echo "Waiting for instantiation request to be committed ..."
 sleep 10
 
-echo "Submitting initLedger transaction to smart contract on mychannel"
-echo "The transaction is sent to the two peers with the chaincode installed (peer0.org1.example.com and peer0.org2.example.com) so that chaincode is built before receiving the following requests"
-docker exec \
-  -e CORE_PEER_LOCALMSPID=Org1MSP \
-  -e CORE_PEER_MSPCONFIGPATH=${ORG1_MSPCONFIGPATH} \
-  cli \
-  peer chaincode invoke \
-    -o orderer.example.com:7050 \
-    -C mychannel \
-    -n fabcar \
-    -c '{"function":"initLedger","Args":[]}' \
-    --waitForEvent \
-    --tls \
-    --cafile ${ORDERER_TLS_ROOTCERT_FILE} \
-    --peerAddresses peer0.org1.example.com:7051 \
-    --peerAddresses peer0.org2.example.com:9051 \
-    --tlsRootCertFiles ${ORG1_TLS_ROOTCERT_FILE} \
-    --tlsRootCertFiles ${ORG2_TLS_ROOTCERT_FILE}
 set +x
 
 cat <<EOF
